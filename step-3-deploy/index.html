@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Asteroids</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="login-screen" style="display:flex">
+    <div id="login-box">
+      <h2>ENTER THE ASTEROID FIELD</h2>
+      <input id="email-input" type="email" placeholder="Email" autocomplete="email">
+      <input id="screen-name-input" type="text" placeholder="Screen Name" autocomplete="off">
+      <button id="login-button">ENTER</button>
+    </div>
+  </div>
+
+  <div id="menu-screen" style="display:none">
+    <div id="sync-status" class="sync-status sync-idle">●</div>
+    <button id="logout-button">LOG OUT</button>
+    <h1 id="title">ASTEROIDS</h1>
+    <div id="level-grid"></div>
+  </div>
+
+  <div id="game-screen" style="display:none;"></div>
+
+  <div id="leaderboard-modal" style="display:none">
+    <div id="leaderboard-modal-content">
+      <h2>TOP 10 &mdash; LEVEL <span id="leaderboard-level"></span></h2>
+      <div id="leaderboard-content">Loading...</div>
+      <button id="leaderboard-close">Close</button>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/phaser@3.80.1/dist/phaser.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>
