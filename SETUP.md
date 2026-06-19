@@ -1,6 +1,6 @@
-# WINDOWS
+## (WINDOWS) Install Node 
 
-##Install Node (we need to use `npm install`)
+we need to use `npm install`
 
 https://nodejs.org/en/download/
 
