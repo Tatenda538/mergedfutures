@@ -20,7 +20,44 @@ Title Screen → Mode Select → Loadout → Game → End Screen
 4. **Game** — Active gameplay on canvas with HUD and loadout bar
 5. **End Screen** — "You Win" or "You Lost" message, buttons for Retry and Back to Menu
 
-**Tutorial** is a readme-style text overlay, accessible from the title screen.
+**Tutorial (State Machine):** A forced walkthrough runs on first load before the main menu appears. Uses a dedicated `TutorialManager` state machine in `js/tutorial.js`.
+
+### Tutorial State Machine Design
+
+- **Entry:** Game loads → tutorial runs immediately → on completion, Main Menu (Play/Shop/Tutorial) is shown
+- **Module:** `js/tutorial.js` — `window.TutorialManager`
+- **Mechanism:** CSS class `.pulse` for button glow, `button.disabled` for locking non-target buttons
+- **Map during tutorial:** `Game.init('field', 'easy', ['arrow'])` — Open Field, Easy, Arrow-only loadout
+
+### States
+
+| State | What happens | Exit condition |
+|-------|-------------|----------------|
+| **WELCOME** | 2-second "Welcome to Tower Defense" banner overlay | Timer expires |
+| **SHOP_INTRO** | Main menu shown with all buttons locked except Shop; Shop button pulses | Click Shop |
+| **FORCE_BUY** | Shop screen with all buttons locked except Arrow "Buy"; Buy button pulses | Buy Arrow tower — shop closes immediately |
+| **GHOST_PLACEMENT** | Game initializes (field/easy/arrow); map shown; ghost preview follows cursor; click target tile to place Arrow there | Click the target tile (other clicks ignored) |
+| **SPAWN_ENEMY** | One slow enemy spawned; Arrow tower auto-targets and fires; poll for enemy death/exit | Enemy dies OR reaches exit |
+| **COMPLETE** | "Tutorial complete!" message; all buttons unlocked; return to main menu | Auto-transition |
+
+### Ghost Placement Details
+- Ghost: semi-transparent tower drawn on canvas at cursor position via `onmousemove`
+- Valid TOWER tiles highlighted green, invalid red, target tile uniquely marked
+- Target tile: the first valid TOWER tile adjacent to the path, nearest the map center
+- Only the target tile click is accepted; other clicks are silently ignored
+
+### Enemy Spawn Details
+- Single enemy with modified low HP / low speed via wave system override
+- Arrow tower fires at it automatically once in range
+- Game loop polls `Game.getGameState().phase` every 500ms
+- If phase === 3 (WON, enemy killed) → tutorial advances
+- If phase === 4 (LOST, enemy reached exit) → "The enemy escaped! Towers prevent that." → tutorial advances
+
+### Reverting on Complete
+- Remove pulse classes from all elements
+- Re-enable all buttons
+- Remove ghost placement listeners
+- `GameUI.showScreen('screen-title')`
 
 ## Currencies
 
@@ -106,6 +143,7 @@ step-0-setup/
     ├── game.js         — game loop (update + render via requestAnimationFrame)
     ├── entities.js     — Tower, Enemy, Projectile classes
     ├── waves.js        — wave spawning logic & definitions
+    ├── tutorial.js     — TutorialManager state machine (forced walkthrough on first load)
     └── ui.js           — HUD, loadout bar, menu rendering & event handlers
 ```
 
@@ -130,4 +168,6 @@ step-0-setup/
 - **All towers placed:** If all 5 loadout towers are on the map, prevent further placement
 - **Path visibility:** Option to toggle path highlights during placement
 - **Browser refresh during game:** Run state is lost (no mid-game save)
-- **First-time player:** Start with 1 starter tower (Arrow) unlocked and 0 coins — tutorial prompt on title screen
+- **First-time player:** Start with 1 starter tower (Arrow) unlocked and 0 coins — forced tutorial runs on first load before main menu appears
+- **Tutorial interruption:** If browser is refreshed during tutorial, tutorial restarts from WELCOME on next load
+- **All towers owned (shop):** Arrow is already owned post-tutorial; its Buy button is hidden

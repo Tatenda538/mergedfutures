@@ -16,7 +16,6 @@ window.GameUI = (function() {
 
     // Mode select
     document.getElementById('btn-mode-confirm').addEventListener('click', function() {
-      if (selectedLoadout.length === 0) { alert('Select at least 1 tower'); return; }
       showScreen('screen-loadout');
     });
     document.getElementById('btn-mode-back').addEventListener('click', function() { showScreen('screen-title'); });
