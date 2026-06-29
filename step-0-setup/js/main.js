@@ -1,4 +1,6 @@
 (function() {
-  window.GameUI.init();
   window.GameState.load();
+  window.TutorialManager.start(function() {
+    window.GameUI.init();
+  });
 })();
