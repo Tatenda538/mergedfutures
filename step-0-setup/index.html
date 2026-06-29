@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tower Defense</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- Title Screen -->
+  <div id="screen-title" class="screen active">
+    <h1>TOWER DEFENSE</h1>
+    <button id="btn-play">Play</button>
+    <button id="btn-shop">Shop</button>
+    <button id="btn-tutorial">Tutorial</button>
+  </div>
+
+  <!-- Tutorial Overlay -->
+  <div id="screen-tutorial" class="screen overlay">
+    <div class="modal"><pre>Tutorial text here</pre><button id="btn-tutorial-close">Close</button></div>
+  </div>
+
+  <!-- Shop Screen -->
+  <div id="screen-shop" class="screen">
+    <h2>Shop</h2>
+    <div id="shop-coins">Coins: 0</div>
+    <div id="shop-tower-list"></div>
+    <button id="btn-shop-back">Back</button>
+  </div>
+
+  <!-- Mode Select Screen -->
+  <div id="screen-mode-select" class="screen">
+    <h2>Select Mode</h2>
+    <div id="map-type-select"></div>
+    <div id="difficulty-select"></div>
+    <button id="btn-mode-confirm">Next: Loadout</button>
+    <button id="btn-mode-back">Back</button>
+  </div>
+
+  <!-- Loadout Screen -->
+  <div id="screen-loadout" class="screen">
+    <h2>Choose Your Loadout</h2>
+    <div id="available-towers"></div>
+    <div id="loadout-slots"></div>
+    <button id="btn-loadout-start">Start Game</button>
+    <button id="btn-loadout-back">Back</button>
+  </div>
+
+  <!-- Game Screen -->
+  <div id="screen-game" class="screen">
+    <div id="game-hud"><span id="hud-wave">Wave 0/0</span> | <span id="hud-gold">Gold: 0</span> | <span id="hud-lives">Lives: 20</span></div>
+    <canvas id="game-canvas"></canvas>
+    <div id="game-loadout-bar"></div>
+    <button id="btn-start-wave">Start Wave</button>
+    <button id="btn-game-quit">Quit</button>
+  </div>
+
+  <!-- End Screen -->
+  <div id="screen-end" class="screen">
+    <h2 id="end-title">You Win!</h2>
+    <button id="btn-end-retry">Retry</button>
+    <button id="btn-end-menu">Main Menu</button>
+  </div>
+
+  <script src="js/state.js"></script>
+  <script src="js/entities.js"></script>
+  <script src="js/waves.js"></script>
+  <script src="js/mapgen.js"></script>
+  <script src="js/game.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
