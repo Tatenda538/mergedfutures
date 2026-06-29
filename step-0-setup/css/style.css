@@ -9,3 +9,22 @@ button:hover { background: #444; }
 h1 { font-size: 48px; margin-bottom: 24px; }
 h2 { font-size: 32px; margin-bottom: 16px; }
 #game-canvas { background: #1a1a2e; display: block; }
+
+/* Game screen layout */
+#screen-game { justify-content: flex-start; padding-top: 10px; }
+#game-hud { width: 100%; text-align: center; padding: 8px; background: #1a1a2e; font-size: 18px; }
+#game-canvas { margin: 10px auto; border: 1px solid #333; }
+#game-loadout-bar { width: 100%; text-align: center; padding: 10px; background: #1a1a2e; }
+#game-loadout-bar button { margin: 4px; min-width: 100px; }
+#btn-start-wave { font-size: 18px; padding: 12px 32px; background: #2d5a2d; }
+#btn-game-quit { position: absolute; top: 10px; right: 10px; }
+
+button:disabled { opacity: 0.5; cursor: not-allowed; }
+button.active { border-color: #4fc3f7; background: #1a3a4e; }
+
+.shop-item { display: flex; align-items: center; justify-content: space-between; width: 300px; padding: 8px; margin: 4px; background: #222; border-radius: 4px; }
+.shop-item button { margin: 0; }
+
+/* Mode select layout */
+#map-type-select, #difficulty-select { display: flex; gap: 8px; margin: 8px 0; }
+#available-towers, #loadout-slots { margin: 8px 0; text-align: center; }

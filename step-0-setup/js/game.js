@@ -117,6 +117,14 @@ window.Game = (function() {
     });
     projectiles = projectiles.filter(function(p) { return p.alive; });
 
+    // Wave completion gold bonus
+    if (spawnQueue.length === 0 && enemies.length === 0 && state.phase === PHASE.WAVE_ACTIVE && state.wave > 0) {
+      state.gold += window.WaveManager.getWaveGoldBonus(state.wave);
+      state.phase = PHASE.IDLE;
+      var startBtn = document.getElementById('btn-start-wave');
+      if (startBtn) startBtn.disabled = false;
+    }
+
     if (state.lives <= 0) {
       state.lives = 0;
       state.phase = PHASE.LOST;
