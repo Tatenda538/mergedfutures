@@ -122,7 +122,7 @@ window.Game = (function() {
       state.gold += window.WaveManager.getWaveGoldBonus(state.wave);
       state.phase = PHASE.IDLE;
       var startBtn = document.getElementById('btn-start-wave');
-      if (startBtn) startBtn.disabled = false;
+      if (startBtn) startBtn.disabled = state.wave >= state.config.totalWaves;
     }
 
     if (state.lives <= 0) {
@@ -240,7 +240,7 @@ window.Game = (function() {
   function getGameState() { return state; }
 
   function initialize(mapType, difficulty, loadout) {
-    init(mapType, difficulty, loadout);
+    return init(mapType, difficulty, loadout);
   }
 
   return {
