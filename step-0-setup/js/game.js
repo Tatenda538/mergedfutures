@@ -23,6 +23,7 @@ window.Game = (function() {
       difficulty: difficulty
     };
     window.WaveManager.configure(difficulty);
+    state.config.totalWaves = window.WaveManager.getTotalWaves();
     enemies = [];
     towers = [];
     projectiles = [];
@@ -49,11 +50,11 @@ window.Game = (function() {
     animId = requestAnimationFrame(loop);
     var dt = Math.min((time - lastTime) / 1000, 0.05);
     lastTime = time;
-    if (state.phase === PHASE.WAVE_ACTIVE) update(dt);
+    if (state.phase === PHASE.WAVE_ACTIVE) update(dt, time);
     render();
   }
 
-  function update(dt) {
+  function update(dt, time) {
     spawnTimer += dt;
     while (spawnQueue.length > 0 && spawnTimer >= spawnQueue[0].spawnDelay) {
       spawnTimer -= spawnQueue[0].spawnDelay;
