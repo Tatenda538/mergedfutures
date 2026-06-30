@@ -40,4 +40,12 @@
 
   TDD.assert(Array.isArray(E.TOWER_IDS), 'TOWER_IDS is array');
   TDD.assert(E.TOWER_IDS.length >= 5, 'at least 5 tower types');
+
+  // Support tower
+  var support = E.createTower('support', 2, 3);
+  TDD.assert(support !== null, 'support tower created');
+  TDD.assertEqual(support.type, 'support', 'support type set');
+  TDD.assertEqual(support.special, 'buff', 'support special is buff');
+  TDD.assertEqual(support.damage, 0, 'support has no damage');
+  TDD.assertEqual(support.fireRate, 0, 'support has no fire rate');
 })();

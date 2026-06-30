@@ -5,7 +5,8 @@ window.Entities = (function() {
     ice:    { name:'Ice',    cost:80,  range:130, damage:8,  fireRate:800,  special:'slow',   upgradeCosts:[120,200], upgradeDamage:[12,18], upgradeRange:[150,180], upgradeFireRate:[700,600] },
     sniper: { name:'Sniper', cost:150, range:300, damage:80, fireRate:2500, special:'none',    upgradeCosts:[200,350], upgradeDamage:[120,180],upgradeRange:[350,400], upgradeFireRate:[2200,2000] },
     tesla:  { name:'Tesla',  cost:120, range:100, damage:20, fireRate:700,  special:'chain',  upgradeCosts:[180,300], upgradeDamage:[30,45], upgradeRange:[120,140], upgradeFireRate:[600,500] },
-    mortar: { name:'Mortar', cost:90,  range:250, damage:35, fireRate:2000, special:'aoe',    upgradeCosts:[140,220], upgradeDamage:[50,75], upgradeRange:[280,320], upgradeFireRate:[1800,1500] }
+    mortar: { name:'Mortar', cost:90,  range:250, damage:35, fireRate:2000, special:'aoe',    upgradeCosts:[140,220], upgradeDamage:[50,75], upgradeRange:[280,320], upgradeFireRate:[1800,1500] },
+    support: { name:'Support', cost:100, range:150, damage:0, fireRate:0, special:'buff', upgradeCosts:[150,250], upgradeDamage:[0,0], upgradeRange:[150,150], upgradeFireRate:[0,0] }
   };
 
   var ENEMY_TYPES = {
@@ -15,7 +16,7 @@ window.Entities = (function() {
     boss:   { hp:500, speed:30,  goldValue:50 }
   };
 
-  var TOWER_IDS = ['arrow','cannon','ice','sniper','tesla','mortar'];
+  var TOWER_IDS = ['arrow','cannon','ice','sniper','tesla','mortar','support'];
 
   function distance(x1, y1, x2, y2) {
     var dx = x2 - x1, dy = y2 - y1;
