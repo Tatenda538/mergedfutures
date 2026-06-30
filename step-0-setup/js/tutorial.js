@@ -45,24 +45,28 @@ window.TutorialManager = (function() {
         break;
 
       case 'FORCE_BUY':
-        showScreen('screen-shop');
-        GameUI.populateShop();
-        document.querySelectorAll('#shop-tower-list .shop-item button').forEach(function(btn) {
-          btn.disabled = true;
-        });
-        var buyArrow = findBuyButton('arrow');
-        if (buyArrow) {
-          buyArrow.disabled = false;
-          addPulse(buyArrow);
-          setupOneClickHandler(buyArrow, function() {
-            removePulse(buyArrow);
-            advance();
-            enterState(getState(), onComplete);
-          });
-        } else {
-          // Tower already owned, skip buy step
+        if (window.GameState.isTowerUnlocked('arrow')) {
           advance();
           enterState(getState(), onComplete);
+        } else {
+          showScreen('screen-shop');
+          GameUI.populateShop();
+          document.querySelectorAll('#shop-tower-list .shop-item button').forEach(function(btn) {
+            btn.disabled = true;
+          });
+          var buyArrow = findBuyButton('arrow');
+          if (buyArrow) {
+            buyArrow.disabled = false;
+            addPulse(buyArrow);
+            setupOneClickHandler(buyArrow, function() {
+              removePulse(buyArrow);
+              advance();
+              enterState(getState(), onComplete);
+            });
+          } else {
+            advance();
+            enterState(getState(), onComplete);
+          }
         }
         break;
 
