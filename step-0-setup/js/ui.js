@@ -82,20 +82,7 @@ window.GameUI = (function() {
     var screens = document.querySelectorAll('.screen');
     for (var i = 0; i < screens.length; i++) screens[i].classList.remove('active');
     document.getElementById(id).classList.add('active');
-    // Resize canvas when showing game screen
-    if (id === 'screen-game') {
-      setTimeout(function() {
-        var canvas = document.getElementById('game-canvas');
-        var container = canvas.parentElement;
-        var maxW = container.clientWidth * 0.9;
-        var maxH = container.clientHeight * 0.7;
-        var mapW = window.Game.TILE_SIZE * 20;
-        var mapH = window.Game.TILE_SIZE * 20;
-        var scale = Math.min(1, maxW / mapW, maxH / mapH);
-        canvas.style.width = (mapW * scale) + 'px';
-        canvas.style.height = (mapH * scale) + 'px';
-      }, 50);
-    }
+    // Canvas sizing handled by CSS flex layout
   }
 
   function populateShop() {
@@ -198,35 +185,78 @@ window.GameUI = (function() {
   function setupGameUI() {
     var bar = document.getElementById('game-loadout-bar');
     bar.innerHTML = '';
-    selectedLoadout.forEach(function(id) {
+    selectedLoadout.forEach(function(id, index) {
       var def = window.Entities.TOWER_TYPES[id];
-      var btn = document.createElement('button');
-      btn.textContent = 'Place ' + def.name + ' ($' + def.cost + ')';
-      btn.setAttribute('data-tower-id', id);
-      btn.addEventListener('click', function() {
+      var slot = document.createElement('div');
+      slot.className = 'loadout-slot';
+      slot.setAttribute('data-tower-id', id);
+      slot.setAttribute('data-slot', index);
+      slot.innerHTML = '<div class="loadout-slot-icon">' + def.name[0] + '</div><div class="loadout-slot-name">' + def.name + '</div>';
+      slot.addEventListener('click', function() {
         selectedTowerForPlacement = id;
-        var all = bar.querySelectorAll('button');
-        for (var i = 0; i < all.length; i++) all[i].style.borderColor = '#555';
-        btn.style.borderColor = '#4fc3f7';
+        var all = bar.querySelectorAll('.loadout-slot');
+        all.forEach(function(s) { s.classList.remove('active'); });
+        slot.classList.add('active');
       });
-      bar.appendChild(btn);
+      bar.appendChild(slot);
     });
+    // Fill remaining empty slots
+    for (var i = selectedLoadout.length; i < 5; i++) {
+      var empty = document.createElement('div');
+      empty.className = 'loadout-slot empty';
+      empty.innerHTML = '[Empty]';
+      bar.appendChild(empty);
+    }
+    updateSidebar();
+  }
 
-    var startBtn = document.getElementById('btn-start-wave');
-    startBtn.style.display = 'inline-block';
+  function updateSidebar() {
+    var list = document.getElementById('shop-list');
+    if (!list) return;
+    list.innerHTML = '';
+    window.Entities.TOWER_IDS.forEach(function(id) {
+      var def = window.Entities.TOWER_TYPES[id];
+      var owned = window.GameState.isTowerUnlocked(id);
+      var card = document.createElement('div');
+      card.className = 'shop-card' + (owned ? '' : ' locked');
+      card.innerHTML =
+        '<div class="shop-card-icon">' + def.name[0] + '</div>' +
+        '<div class="shop-card-info">' +
+          '<div class="shop-card-name">' + (owned ? def.name : '???') + '</div>' +
+          '<div class="shop-card-cost">' + (owned ? '$' + def.cost : 'Locked') + '</div>' +
+        '</div>';
+      if (owned) {
+        card.addEventListener('click', function() {
+          showTowerInfo(id);
+        });
+      }
+      list.appendChild(card);
+    });
+  }
+
+  function showTowerInfo(id) {
+    var def = window.Entities.TOWER_TYPES[id];
+    var infoText = document.getElementById('tower-info-text');
+    if (!infoText || !def) return;
+    infoText.innerHTML =
+      '<b>' + def.name + '</b><br>' +
+      'Damage: ' + def.damage + '<br>' +
+      'Range: ' + def.range + '<br>' +
+      'Fire Rate: ' + def.fireRate + 'ms<br>' +
+      'Special: ' + def.special;
   }
 
   function updateLoadoutBar() {
     var gs = window.Game.getGameState();
     var bar = document.getElementById('game-loadout-bar');
     if (!bar) return;
-    var btns = bar.querySelectorAll('button');
-    btns.forEach(function(btn) {
-      var id = btn.getAttribute('data-tower-id');
+    var slots = bar.querySelectorAll('.loadout-slot');
+    slots.forEach(function(slot) {
+      var id = slot.getAttribute('data-tower-id');
       if (id) {
         var def = window.Entities.TOWER_TYPES[id];
-        btn.textContent = 'Place ' + def.name + ' ($' + def.cost + ')';
-        btn.disabled = gs.gold < def.cost;
+        var canAfford = gs.gold >= def.cost;
+        slot.style.opacity = canAfford ? '1' : '0.5';
       }
     });
   }
@@ -266,6 +296,7 @@ window.GameUI = (function() {
     populateShop: populateShop,
     populateModeSelect: populateModeSelect,
     setupGameUI: setupGameUI,
+    updateSidebar: updateSidebar,
     showEndScreen: showEndScreen,
     startGame: startGame
   };
