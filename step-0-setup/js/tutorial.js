@@ -246,6 +246,11 @@ window.TutorialManager = (function() {
           advance();
           enterState(getState(), onComplete);
         }, 3000);
+      } else if (gs.phase === 1 && gs.wave > 0) {
+        clearInterval(interval);
+        Game.stop();
+        advance();
+        enterState(getState(), onComplete);
       }
     }, 500);
   }
