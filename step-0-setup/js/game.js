@@ -279,6 +279,7 @@ window.Game = (function() {
     startNextWave: startNextWave,
     getGameState: getGameState,
     getEffectiveRange: getEffectiveRange,
+    render: render,
     TILE_SIZE: TILE_SIZE
   };
 })();

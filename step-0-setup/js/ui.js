@@ -291,12 +291,17 @@ window.GameUI = (function() {
     showScreen('screen-end');
   }
 
+  function setLoadout(ids) {
+    selectedLoadout = ids.slice();
+  }
+
   return {
     init: init,
     showScreen: showScreen,
     populateShop: populateShop,
     populateModeSelect: populateModeSelect,
     setupGameUI: setupGameUI,
+    setLoadout: setLoadout,
     updateSidebar: updateSidebar,
     showEndScreen: showEndScreen,
     startGame: startGame

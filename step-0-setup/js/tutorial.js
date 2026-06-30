@@ -68,6 +68,9 @@ window.TutorialManager = (function() {
 
       case 'GHOST_PLACEMENT':
         Game.init('field', 'easy', ['arrow']);
+        Game.render();
+        GameUI.setLoadout(['arrow']);
+        GameUI.setupGameUI();
         showScreen('screen-game');
         setupGhostPlacement(onComplete);
         break;
