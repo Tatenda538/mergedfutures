@@ -48,11 +48,22 @@
 
   <!-- Game Screen -->
   <div id="screen-game" class="screen">
-    <div id="game-hud"><span id="hud-wave">Wave 0/0</span> | <span id="hud-gold">Gold: 0</span> | <span id="hud-lives">Lives: 20</span></div>
-    <canvas id="game-canvas"></canvas>
+    <div id="game-hud"><span id="hud-lives">Lives: 20</span> | <span id="hud-wave">Wave 0/0</span> | <span id="hud-gold">Gold: 0</span></div>
+    <div id="game-main">
+      <canvas id="game-canvas"></canvas>
+      <div id="game-sidebar">
+        <h3>Shop</h3>
+        <div id="shop-list"></div>
+        <div id="tower-info">
+          <p id="tower-info-text">Select a tower to view details.</p>
+        </div>
+      </div>
+    </div>
     <div id="game-loadout-bar"></div>
-    <button id="btn-start-wave">Start Wave</button>
-    <button id="btn-game-quit">Quit</button>
+    <div id="game-controls">
+      <button id="btn-start-wave">Start Wave</button>
+      <button id="btn-game-quit">Quit</button>
+    </div>
   </div>
 
   <!-- End Screen -->

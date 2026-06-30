@@ -111,23 +111,32 @@ Before each run, the player selects 5 unlocked towers for their loadout. Only th
 ## UI Layout (Game Screen)
 
 ```
-┌──────────────────────────────────────┐
-│ Wave 3/25 │ Gold: 450 │ Lives: 20    │  ← HUD top
-├──────────────────────────────────────┤
-│                                      │
-│           GAME CANVAS                │
-│     (map tiles, towers, enemies,     │
-│      projectiles, VFX)               │
-│                                      │
-├──────────────────────────────────────┤
-│ Loadout: │  │  │  │  │  │            │  ← Bottom bar
-└──────────────────────────────────────┘
+┌──────────────────────────────────────────────────┐
+│ Lives: 20 │ Wave 3/25 │ Coins: 200               │  ← Top Bar (HUD)
+├────────────────────────────┬─────────────────────┤
+│                            │  Shop                │
+│      GAME CANVAS           │  ┌─────┐ ┌─────┐    │  ← canvas | sidebar
+│                            │  │Arrow│ │Can. │    │
+│                            │  │$50  │ │$100 │    │
+│                            │  └─────┘ └─────┘    │
+│                            │  [info panel]        │
+├────────────────────────────┴─────────────────────┤
+│ [Arrow] [Cannon] [Ice] [Sniper] [Tesla]          │  ← Loadout Bar (5 slots)
+├──────────────────────────────────────────────────┤
+│ [Start Wave]                          [Quit]      │  ← Controls
+└──────────────────────────────────────────────────┘
 ```
 
-- **Canvas** fills the center area
-- **HUD** at top: wave counter, gold, lives
-- **Loadout bar** at bottom: 5 deployable tower slots, click to select then click map to place
-- Click a deployed tower to open upgrade UI (if enough gold)
+- **CSS Grid** layout: `grid-template-rows: auto 1fr auto auto` / `grid-template-columns: 1fr 250px`
+  - Top bar: lives, wave, coins
+  - Canvas: game map on the left
+  - Sidebar (250px): right side — shop with all unlocked towers + info panel
+  - Loadout bar: 5 visual slots for selecting towers to place
+  - Controls bar: Start Wave + Quit buttons
+- **Right Sidebar:** Lists all unlocked towers as icon+price cards. Click a tower to show its stats in the info panel below (damage, range, fire rate, special). Locked towers shown greyed out with "???".
+- **Bottom Loadout Bar:** 5 visual slots. Clicking a slot selects that tower for placement (blue highlight + pulse). Empty slots show "[Empty]".
+- **Canvas** on the left: map, towers, enemies, projectiles, VFX
+- Click a deployed tower on the map to open upgrade UI (if enough gold)
 
 ## Architecture (File Structure)
 
