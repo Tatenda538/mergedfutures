@@ -93,4 +93,9 @@
   var support2 = E.createTower('support', 0, 1);
   var effectiveMulti = G.getEffectiveRange(nearbyTower, [supportTower, support2]);
   assert(effectiveMulti > effectiveLv3, 'multiple supports stack');
+
+  // Test support tower does not buff itself
+  var soloSupport = E.createTower('support', 5, 5);
+  var effectiveSelf = G.getEffectiveRange(soloSupport, [soloSupport]);
+  assertEqual(effectiveSelf, soloSupport.range, 'support tower does not buff itself');
 })();

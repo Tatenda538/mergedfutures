@@ -248,6 +248,7 @@ window.Game = (function() {
     for (var i = 0; i < allTowers.length; i++) {
       var other = allTowers[i];
       if (other.special !== 'buff') continue;
+      if (other === tower) continue;
       var dist = window.Entities.distance(
         tower.x * TILE_SIZE + TILE_SIZE / 2,
         tower.y * TILE_SIZE + TILE_SIZE / 2,
