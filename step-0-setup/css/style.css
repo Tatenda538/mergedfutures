@@ -203,6 +203,12 @@ button.active { border-color: #4fc3f7; background: #1a3a4e; }
   font-size: 24px;
   text-align: center;
 }
+.tutorial-overlay.click-through {
+  pointer-events: none;
+  background: transparent;
+  align-items: flex-end;
+  padding-bottom: 80px;
+}
 .tutorial-overlay.hidden {
   display: none;
 }

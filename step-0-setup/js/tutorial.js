@@ -97,10 +97,17 @@ window.TutorialManager = (function() {
     }
   }
 
-  function showOverlay(text) {
+  function showOverlay(text, clickThrough) {
     var el = document.getElementById('tutorial-overlay');
     var textEl = document.getElementById('tutorial-text');
-    if (el) el.classList.remove('hidden');
+    if (el) {
+      el.classList.remove('hidden');
+      if (clickThrough) {
+        el.classList.add('click-through');
+      } else {
+        el.classList.remove('click-through');
+      }
+    }
     if (textEl) textEl.innerText = text;
   }
 
@@ -186,7 +193,7 @@ window.TutorialManager = (function() {
       }
     }
 
-    showOverlay('Now place your Arrow tower on the highlighted tile.');
+    showOverlay('Now place your Arrow tower on the highlighted tile.', true);
 
     function renderGhost() {
       var ctx = canvas.getContext('2d');
