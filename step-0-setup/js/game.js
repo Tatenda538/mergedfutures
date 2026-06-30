@@ -80,11 +80,11 @@ window.Game = (function() {
 
     towers.forEach(function(tower) {
       var target = null;
+      var effRange = getEffectiveRange(tower, towers);
       for (var i = 0; i < enemies.length; i++) {
         var e = enemies[i];
         if (!e.alive) continue;
         var dist = window.Entities.distance(tower.x * TILE_SIZE + TILE_SIZE/2, tower.y * TILE_SIZE + TILE_SIZE/2, e.x, e.y);
-        var effRange = getEffectiveRange(tower, towers);
         if (dist <= effRange) { target = e; break; }
       }
       if (target && tower.canFire(time)) {
