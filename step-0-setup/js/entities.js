@@ -62,17 +62,21 @@ window.Entities = (function() {
   function createEnemy(type, waypoints) {
     var def = ENEMY_TYPES[type] || ENEMY_TYPES.normal;
     if (!waypoints || waypoints.length < 2) return null;
+    var tileSize = (window.Game && window.Game.TILE_SIZE) || 40;
+    var pixelWaypoints = waypoints.map(function(wp) {
+      return { x: wp.x * tileSize + tileSize / 2, y: wp.y * tileSize + tileSize / 2 };
+    });
     return {
       type: type,
       hp: def.hp,
       maxHp: def.hp,
       speed: def.speed,
-      x: waypoints[0].x,
-      y: waypoints[0].y,
+      x: pixelWaypoints[0].x,
+      y: pixelWaypoints[0].y,
       goldValue: def.goldValue,
       pathIndex: 0,
       alive: true,
-      waypoints: waypoints,
+      waypoints: pixelWaypoints,
       takeDamage: function(amount) {
         this.hp -= amount;
         if (this.hp <= 0) { this.alive = false; this.hp = 0; }

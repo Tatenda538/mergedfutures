@@ -36,6 +36,15 @@
   enemy2.takeDamage(5);
   TDD.assertEqual(enemy2.alive, true, 'enemy survives small damage');
 
+  // Enemy waypoint coordinate conversion (grid to pixel)
+  var tileWaypoints = [{x:0,y:10}, {x:5,y:10}];
+  var enemy3 = E.createEnemy('normal', tileWaypoints);
+  var tileSize = (window.Game && window.Game.TILE_SIZE) || 40;
+  TDD.assertEqual(enemy3.x, tileWaypoints[0].x * tileSize + tileSize / 2, 'enemy x converted to pixel coords');
+  TDD.assertEqual(enemy3.y, tileWaypoints[0].y * tileSize + tileSize / 2, 'enemy y converted to pixel coords');
+  TDD.assertEqual(enemy3.waypoints[1].x, tileWaypoints[1].x * tileSize + tileSize / 2, 'waypoint x converted to pixel coords');
+  TDD.assertEqual(enemy3.waypoints[1].y, tileWaypoints[1].y * tileSize + tileSize / 2, 'waypoint y converted to pixel coords');
+
   TDD.assert(E.distance(0, 0, 3, 4) === 5, 'distance calculation correct');
 
   TDD.assert(Array.isArray(E.TOWER_IDS), 'TOWER_IDS is array');
