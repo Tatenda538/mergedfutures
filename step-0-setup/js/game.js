@@ -62,9 +62,9 @@ window.Game = (function() {
       var enemy = window.Entities.createEnemy(item.type, state.map.waypoints);
       if (enemy) {
         var dc = window.WaveManager.getDifficultyConfig();
-        enemy.hp *= dc.hpMult;
+        enemy.hp *= dc.hpMult * (1 + dc.perWaveHp * state.wave);
         enemy.maxHp = enemy.hp;
-        enemy.speed *= dc.speedMult;
+        enemy.speed *= dc.speedMult * (1 + dc.perWaveSpeed * state.wave);
         enemies.push(enemy);
       }
     }

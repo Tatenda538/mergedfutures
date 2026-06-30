@@ -24,4 +24,20 @@
 
   var bonus = W.getWaveGoldBonus(1);
   TDD.assert(bonus > 0, 'wave gold bonus is positive');
+
+  // Per-wave scaling
+  W.configure('easy');
+  var easyConfig = W.getDifficultyConfig();
+  TDD.assertEqual(easyConfig.perWaveHp, 0.10, 'easy perWaveHp = 0.10');
+  TDD.assertEqual(easyConfig.perWaveSpeed, 0, 'easy perWaveSpeed = 0');
+
+  W.configure('medium');
+  var medConfig = W.getDifficultyConfig();
+  TDD.assertEqual(medConfig.perWaveHp, 0, 'medium perWaveHp = 0');
+  TDD.assertEqual(medConfig.perWaveSpeed, 0, 'medium perWaveSpeed = 0');
+
+  W.configure('hard');
+  var hardConfig = W.getDifficultyConfig();
+  TDD.assertEqual(hardConfig.perWaveHp, 0.20, 'hard perWaveHp = 0.20');
+  TDD.assertEqual(hardConfig.perWaveSpeed, 0.02, 'hard perWaveSpeed = 0.02');
 })();

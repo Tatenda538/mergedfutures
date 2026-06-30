@@ -7,9 +7,9 @@ window.WaveManager = (function() {
   };
 
   var DIFFICULTY = {
-    easy:   { totalWaves: 25, hpMult: 0.8, speedMult: 0.8, countMult: 0.7 },
-    medium: { totalWaves: 32, hpMult: 1.0, speedMult: 1.0, countMult: 1.0 },
-    hard:   { totalWaves: 40, hpMult: 1.3, speedMult: 1.2, countMult: 1.4 }
+    easy:   { totalWaves: 25, hpMult: 0.8, speedMult: 0.8, countMult: 0.7, perWaveHp: 0.10, perWaveSpeed: 0 },
+    medium: { totalWaves: 32, hpMult: 1.0, speedMult: 1.0, countMult: 1.0, perWaveHp: 0, perWaveSpeed: 0 },
+    hard:   { totalWaves: 40, hpMult: 1.3, speedMult: 1.2, countMult: 1.4, perWaveHp: 0.20, perWaveSpeed: 0.02 }
   };
 
   function configure(difficulty) {
@@ -18,6 +18,8 @@ window.WaveManager = (function() {
     config.hpMult = d.hpMult;
     config.speedMult = d.speedMult;
     config.countMult = d.countMult;
+    config.perWaveHp = d.perWaveHp;
+    config.perWaveSpeed = d.perWaveSpeed;
   }
 
   function getTotalWaves() { return config.totalWaves; }
@@ -27,7 +29,9 @@ window.WaveManager = (function() {
       totalWaves: config.totalWaves,
       hpMult: config.hpMult,
       speedMult: config.speedMult,
-      countMult: config.countMult
+      countMult: config.countMult,
+      perWaveHp: config.perWaveHp,
+      perWaveSpeed: config.perWaveSpeed
     };
   }
 
