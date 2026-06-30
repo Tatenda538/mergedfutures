@@ -48,11 +48,138 @@
     el.remove();
   }
 
+  function testGameScreenLayout() {
+    var el = document.createElement('div');
+    el.id = 'screen-game';
+    document.body.appendChild(el);
+    var cs = getComputedStyle(el);
+    assertEqual(cs.display, 'none', '#screen-game should have display: none');
+    assert(cs.flexDirection.indexOf('column') !== -1, '#screen-game should have flex-direction: column');
+    el.classList.add('active');
+    assertEqual(getComputedStyle(el).display, 'flex', '#screen-game.active should have display: flex');
+    el.remove();
+  }
+
+  function testGameHud() {
+    var el = document.createElement('div');
+    el.id = 'game-hud';
+    document.body.appendChild(el);
+    var cs = getComputedStyle(el);
+    assert(cs.display.indexOf('flex') !== -1, '#game-hud should have display: flex');
+    el.remove();
+  }
+
+  function testGameMain() {
+    var el = document.createElement('div');
+    el.id = 'game-main';
+    document.body.appendChild(el);
+    var cs = getComputedStyle(el);
+    assert(cs.display.indexOf('flex') !== -1, '#game-main should have display: flex');
+    assertEqual(cs.minHeight, '0px', '#game-main should have min-height: 0');
+    el.remove();
+  }
+
+  function testGameCanvasFlex() {
+    var el = document.createElement('div');
+    el.id = 'game-canvas';
+    document.body.appendChild(el);
+    var cs = getComputedStyle(el);
+    assert(cs.flexGrow === '1', '#game-canvas should have flex: 1');
+    assert(cs.maxWidth.indexOf('calc') !== -1 || cs.maxWidth === 'calc(100% - 270px)', '#game-canvas should have max-width: calc(100% - 270px)');
+    el.remove();
+  }
+
+  function testGameSidebar() {
+    var el = document.createElement('div');
+    el.id = 'game-sidebar';
+    document.body.appendChild(el);
+    var cs = getComputedStyle(el);
+    assertEqual(cs.width, '250px', '#game-sidebar should have width: 250px');
+    assert(cs.display.indexOf('flex') !== -1, '#game-sidebar should have display: flex');
+    el.remove();
+  }
+
+  function testGameLoadoutBar() {
+    var el = document.createElement('div');
+    el.id = 'game-loadout-bar';
+    document.body.appendChild(el);
+    var cs = getComputedStyle(el);
+    assert(cs.display.indexOf('flex') !== -1, '#game-loadout-bar should have display: flex');
+    el.remove();
+  }
+
+  function testLoadoutSlot() {
+    var el = document.createElement('div');
+    el.className = 'loadout-slot';
+    document.body.appendChild(el);
+    var cs = getComputedStyle(el);
+    assertEqual(cs.width, '80px', '.loadout-slot should have width: 80px');
+    assertEqual(cs.height, '60px', '.loadout-slot should have height: 60px');
+    el.remove();
+  }
+
+  function testLoadoutSlotEmpty() {
+    var el = document.createElement('div');
+    el.className = 'loadout-slot empty';
+    document.body.appendChild(el);
+    assertEqual(getComputedStyle(el).cursor, 'default', '.loadout-slot.empty should have cursor: default');
+    el.remove();
+  }
+
+  function testGameControls() {
+    var el = document.createElement('div');
+    el.id = 'game-controls';
+    document.body.appendChild(el);
+    var cs = getComputedStyle(el);
+    assert(cs.display.indexOf('flex') !== -1, '#game-controls should have display: flex');
+    el.remove();
+  }
+
+  function testShopCard() {
+    var el = document.createElement('div');
+    el.className = 'shop-card';
+    document.body.appendChild(el);
+    var cs = getComputedStyle(el);
+    assert(cs.display.indexOf('flex') !== -1, '.shop-card should have display: flex');
+    el.remove();
+  }
+
+  function testShopCardLocked() {
+    var el = document.createElement('div');
+    el.className = 'shop-card locked';
+    document.body.appendChild(el);
+    var cs = getComputedStyle(el);
+    assertEqual(cs.opacity, '0.4', '.shop-card.locked should have opacity: 0.4');
+    assertEqual(cs.cursor, 'not-allowed', '.shop-card.locked should have cursor: not-allowed');
+    el.remove();
+  }
+
+  function testTowerInfo() {
+    var el = document.createElement('div');
+    el.id = 'tower-info';
+    document.body.appendChild(el);
+    var cs = getComputedStyle(el);
+    assertEqual(cs.minHeight, '80px', '#tower-info should have min-height: 80px');
+    el.remove();
+  }
+
   try {
     testOverlay();
     testHidden();
     testMessage();
     testPulse();
+    testGameScreenLayout();
+    testGameHud();
+    testGameMain();
+    testGameCanvasFlex();
+    testGameSidebar();
+    testGameLoadoutBar();
+    testLoadoutSlot();
+    testLoadoutSlotEmpty();
+    testGameControls();
+    testShopCard();
+    testShopCardLocked();
+    testTowerInfo();
   } catch (e) {
     TDD.assert(false, 'CSS test error: ' + e.message);
   }
