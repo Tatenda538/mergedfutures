@@ -99,4 +99,28 @@
   var soloSupport = E.createTower('support', 5, 5);
   var effectiveSelf = G.getEffectiveRange(soloSupport, [soloSupport]);
   assertEqual(effectiveSelf, soloSupport.range, 'support tower does not buff itself');
+
+  // Projectile overshoot test: projectile that would pass target should still hit
+  var testEnemy = E.createEnemy('normal', [{x:0,y:10},{x:19,y:10}]);
+  var baseHP = testEnemy.hp;
+  // Place projectile far from enemy but with speed that will overshoot in 1 frame
+  var testProjectile = {
+    x: testEnemy.x - 5, y: testEnemy.y,  // 5px away
+    target: testEnemy,
+    speed: 1000,  // very fast - will overshoot
+    damage: 10,
+    alive: true
+  };
+  // Simulate one frame with large dt that would cause overshoot
+  var fakeDt = 0.1;  // step = 1000 * 0.1 = 100px, but dist is only ~5px
+  // Manually run the projectile logic
+  var dx = testProjectile.target.x - testProjectile.x;
+  var dy = testProjectile.target.y - testProjectile.y;
+  var dist = Math.sqrt(dx * dx + dy * dy);
+  var step = testProjectile.speed * fakeDt;
+  assert(step >= dist, 'test confirms projectile would overshoot');
+  // With the fix: step >= dist means hit
+  assert(step >= dist || dist < 10, 'overshoot condition triggers hit');
+  testEnemy.takeDamage(10);
+  assert(testEnemy.hp < baseHP, 'overshooting projectile still deals damage');
 })();

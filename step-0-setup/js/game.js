@@ -106,13 +106,13 @@ window.Game = (function() {
       if (!p.target.alive) { p.alive = false; return; }
       var dx = p.target.x - p.x, dy = p.target.y - p.y;
       var dist = Math.sqrt(dx * dx + dy * dy);
-      if (dist < 10) {
+      var step = p.speed * dt;
+      if (dist < 10 || step >= dist) {
         p.target.takeDamage(p.damage);
         if (!p.target.alive) state.gold += p.target.goldValue;
         p.alive = false;
         return;
       }
-      var step = p.speed * dt;
       p.x += (dx / dist) * step;
       p.y += (dy / dist) * step;
     });
