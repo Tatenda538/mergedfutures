@@ -1,5 +1,6 @@
 (function() {
   var G = window.Game;
+  var E = window.Entities;
   var assert = TDD.assert;
   var assertEqual = TDD.assertEqual;
 
@@ -66,4 +67,30 @@
 
   assertEqual(typeof G.TILE_SIZE, 'number', 'TILE_SIZE is a number');
   assert(G.TILE_SIZE > 0, 'TILE_SIZE positive');
+
+  // Support tower buff
+  var supportTower = E.createTower('support', 0, 0);
+  var nearbyTower = E.createTower('arrow', 1, 0);
+  var farTower = E.createTower('arrow', 10, 10);
+
+  var baseRange = nearbyTower.range;
+  var effectiveNear = G.getEffectiveRange(nearbyTower, [supportTower]);
+  var effectiveFar = G.getEffectiveRange(farTower, [supportTower]);
+
+  assert(effectiveNear > baseRange, 'nearby tower gets range buff');
+  assertEqual(effectiveFar, baseRange, 'far tower unaffected');
+
+  // Test buff scales with level
+  supportTower.level = 2;
+  var effectiveLv2 = G.getEffectiveRange(nearbyTower, [supportTower]);
+  assert(effectiveLv2 > effectiveNear, 'level 2 buff stronger than level 1');
+
+  supportTower.level = 3;
+  var effectiveLv3 = G.getEffectiveRange(nearbyTower, [supportTower]);
+  assert(effectiveLv3 > effectiveLv2, 'level 3 buff stronger than level 2');
+
+  // Test multiple overlapping support towers
+  var support2 = E.createTower('support', 0, 1);
+  var effectiveMulti = G.getEffectiveRange(nearbyTower, [supportTower, support2]);
+  assert(effectiveMulti > effectiveLv3, 'multiple supports stack');
 })();

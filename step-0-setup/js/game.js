@@ -84,7 +84,8 @@ window.Game = (function() {
         var e = enemies[i];
         if (!e.alive) continue;
         var dist = window.Entities.distance(tower.x * TILE_SIZE + TILE_SIZE/2, tower.y * TILE_SIZE + TILE_SIZE/2, e.x, e.y);
-        if (dist <= tower.range) { target = e; break; }
+        var effRange = getEffectiveRange(tower, towers);
+        if (dist <= effRange) { target = e; break; }
       }
       if (target && tower.canFire(time)) {
         tower.fire(time);
@@ -239,6 +240,28 @@ window.Game = (function() {
 
   function getGameState() { return state; }
 
+  var BUFF_RADIUS = 150;
+  var BUFF_VALUES = { 1: 0.15, 2: 0.25, 3: 0.35 };
+
+  function getEffectiveRange(tower, allTowers) {
+    var range = tower.range;
+    for (var i = 0; i < allTowers.length; i++) {
+      var other = allTowers[i];
+      if (other.special !== 'buff') continue;
+      var dist = window.Entities.distance(
+        tower.x * TILE_SIZE + TILE_SIZE / 2,
+        tower.y * TILE_SIZE + TILE_SIZE / 2,
+        other.x * TILE_SIZE + TILE_SIZE / 2,
+        other.y * TILE_SIZE + TILE_SIZE / 2
+      );
+      if (dist <= BUFF_RADIUS) {
+        var buffPercent = BUFF_VALUES[other.level] || BUFF_VALUES[1];
+        range *= (1 + buffPercent);
+      }
+    }
+    return range;
+  }
+
   function initialize(mapType, difficulty, loadout) {
     return init(mapType, difficulty, loadout);
   }
@@ -254,6 +277,7 @@ window.Game = (function() {
     upgradeTower: upgradeTower,
     startNextWave: startNextWave,
     getGameState: getGameState,
+    getEffectiveRange: getEffectiveRange,
     TILE_SIZE: TILE_SIZE
   };
 })();
