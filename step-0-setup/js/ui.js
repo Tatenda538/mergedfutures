@@ -262,6 +262,7 @@ window.GameUI = (function() {
   }
 
   function startGame() {
+    if (selectedLoadout.length === 0) selectedLoadout = ['arrow'];
     window.Game.init(selectedMapType, selectedDifficulty, selectedLoadout);
     showScreen('screen-game');
     setupGameUI();

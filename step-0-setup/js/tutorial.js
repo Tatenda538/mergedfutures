@@ -59,6 +59,10 @@ window.TutorialManager = (function() {
             advance();
             enterState(getState(), onComplete);
           });
+        } else {
+          // Tower already owned, skip buy step
+          advance();
+          enterState(getState(), onComplete);
         }
         break;
 
